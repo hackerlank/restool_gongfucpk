@@ -18,6 +18,7 @@ OBJS += $(SRC1:%.cpp=obj/%.o)
 
 all:$(OBJS)
 	@echo [M]Link...
+	@mkdir -p bin
 	g++ $(OBJS) -o bin/$(TARGET)
 
 
@@ -35,9 +36,9 @@ run:
 	./bin/$(TARGET)
 
 clean:
-	rm -rf bin/*
-	rm -rf obj/*
-	rm -rf out/*
+	rm -rf bin
+	rm -rf obj
+	rm -rf out
 
 
 
