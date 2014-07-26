@@ -8,7 +8,8 @@ using namespace std;
 
 int main()
 {
-	const char * filename = "res/g78.cpk";
+	//const char * filename = "res/g78.cpk";
+	const char * filename = "res/system.cpk";
 	Cpk cpk(filename);
 
 	cpk.showHeadInfo();

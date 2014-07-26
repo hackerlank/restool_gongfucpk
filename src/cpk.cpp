@@ -81,7 +81,7 @@ void Cpk::showItemInfo(int index)
 void Cpk::writeItem(int index)
 {
 	CpkItem cc = m_item[index];
-	if(cc.OriginSize == 0 || cc.PackedSize == 0)
+	if(IS_DEL(cc.Flag) || cc.OriginSize == 0 || cc.PackedSize == 0)
 		return;
 
 	char dirpath[255];
@@ -113,7 +113,7 @@ void Cpk::writeItem(int index)
 			cout << "[CPK]writeItem: Lzo Decompress Failed For " << outpath << "(" << size << "/" << cc.OriginSize << ")" << endl;
 		}
 		delete []buff;
-	}else
+	}else if(GET_EFMT(cc.Flag) == EFMT_None)
 	{
 		out.write(data, cc.PackedSize);
 	}

@@ -71,6 +71,7 @@ enum EFMT
 #define IS_FILE(f)		((f) & 0x00000001)
 #define IS_DIR(f)		((f) & 0x00000002)
 #define IS_BIG(f)		((f) & 0x00000004)
+#define IS_DEL(f)		((f) & 0x00000010)
 
 #define GET_EFMT(f)		((EFMT)(((f) & 0xffff0000)>>16))
 
