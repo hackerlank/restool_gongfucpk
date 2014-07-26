@@ -45,6 +45,8 @@ void Cpk::showHeadInfo()
 void Cpk::showItemInfo(int index)
 {
 	CpkItem cc = m_item[index];
+	if(cc.OriginSize == 0 || cc.PackedSize == 0)
+		return;
 
 	cout << "-------------------------------------------------" << endl;
 	cout << "[Item] [" << index << "] ";

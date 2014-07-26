@@ -1,12 +1,20 @@
 TARGET := test
 
-SRCS :=	 $(wildcard src/*.cpp) \
+SRC1 :=	 $(wildcard src/*.cpp) \
 		 $(wildcard src/*/*.cpp) \
 		 $(wildcard src/*/*/*.cpp) \
 		 $(wildcard src/*/*/*/*.cpp) \
 		 $(wildcard src/*/*/*/*/*.cpp)
 
-OBJS := $(SRCS:%.cpp=obj/%.o)
+SRC2 :=  $(wildcard src/*.c) \
+		 $(wildcard src/*/*.c) \
+		 $(wildcard src/*/*/*.c) \
+		 $(wildcard src/*/*/*/*.c) \
+		 $(wildcard src/*/*/*/*/*.c)
+
+
+OBJS := $(SRC2:%.c=obj/%.o)
+OBJS += $(SRC1:%.cpp=obj/%.o)
 
 all:$(OBJS)
 	@echo [M]Link...
@@ -14,7 +22,12 @@ all:$(OBJS)
 
 
 obj/%.o:%.cpp
-	@echo [M]Compile...
+	@echo [M]Compile CXX...
+	@mkdir -p $(@D)
+	g++ -c $< -o $@
+
+obj/%.o:%.c
+	@echo [M]Compile C...
 	@mkdir -p $(@D)
 	g++ -c $< -o $@
 

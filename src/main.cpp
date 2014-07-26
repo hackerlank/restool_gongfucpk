@@ -12,7 +12,7 @@ int main()
 	Cpk cpk(filename);
 	cpk.showHeadInfo();
  
-	for(int i = 0; i < cpk.m_head.FileNum; i ++)
+	for(int i = 0; i < cpk.m_head.MaxItemNum; i ++)
 		cpk.showItemInfo(i);
 
 	return 0;

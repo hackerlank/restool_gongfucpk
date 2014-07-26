@@ -90,7 +90,7 @@ enum EFMT
 #define IS_DIR(f)		((f) & 0x00000002)
 #define IS_BIG(f)		((f) & 0x00000004)
 
-#define GET_EFMT(f)		((f) & 0xffff0000)
+#define GET_EFMT(f)		((EFMT)(((f) & 0xffff0000)>>16))
 
 
 class Cpk
