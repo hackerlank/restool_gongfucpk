@@ -44,24 +44,6 @@ typedef struct _CpkItem
 } CpkItem;  
 
 
-typedef struct _CpkFile
-{
-	CpkItem* pTableItem;    // 指向索引表
-
-	// memory
-	void* lpMapAddress;   // Map开始位置
-	void* lpStartAddress; // Map中的文件开始位置
-	uint32 Offset;       // 实际Map起始地址与文件开始地址的偏差
-	void* lpMem;          // 指向文件实际内容
-
-	// for seek/tell
-	uint32 FileSize;     // 文件实际内容大小
-	uint32 Pointer;      // 文件指针
-	
-	bool isCompressed;    // 文件是否被压缩
-	bool isValid;         // 是否有效
-} CpkFile;
-
 
 #pragma pack()
 
@@ -102,6 +84,7 @@ public:
 	void showHeadInfo();
 	void showItemInfo(int index);
 
+	void writeItem(int index);
 public:
 	char 	 m_path[255];
 	ifstream m_file;

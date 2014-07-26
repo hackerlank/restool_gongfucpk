@@ -1,4 +1,6 @@
+#include "util.h"
 #include "cpk.h"
+#include "minilzo/minilzo.h"
 
 
 Cpk::Cpk(const char* filename)
@@ -76,3 +78,49 @@ void Cpk::showItemInfo(int index)
 
 
 
+void Cpk::writeItem(int index)
+{
+	CpkItem cc = m_item[index];
+	if(cc.OriginSize == 0 || cc.PackedSize == 0)
+		return;
+
+	char dirpath[255];
+	char outpath[255];
+
+	sprintf(dirpath, "out/%s/%X/", m_path, cc.FatherCRC);
+	sprintf(outpath, "out/%s/%X/%X", m_path, cc.FatherCRC, cc.CRC);
+
+	cout << "[WRITE] [" << index << "] " << outpath << endl;
+
+	Util::mkdir(dirpath);
+	ofstream out(outpath, ios::out|ios::binary);
+
+	char * data = new char[cc.PackedSize];
+
+	m_file.seekg(cc.StartPos);
+	m_file.read(data, cc.PackedSize);
+
+	if(GET_EFMT(cc.Flag) == EFMT_MiniLzo)
+	{
+		int size = 0;
+		char * buff = new char[cc.OriginSize];
+		int ret = lzo1x_decompress((lzo_byte*)data, cc.PackedSize, (lzo_byte*)buff, (lzo_uint*)&size, NULL);
+		if(ret == LZO_E_OK && size == cc.OriginSize)
+		{
+			out.write(buff, size);
+		}else
+		{
+			cout << "[CPK]writeItem: Lzo Decompress Failed For " << outpath << "(" << size << "/" << cc.OriginSize << ")" << endl;
+		}
+		delete []buff;
+	}else
+	{
+		out.write(data, cc.PackedSize);
+	}
+
+	out.close();
+
+
+	delete []data;
+ 
+}
