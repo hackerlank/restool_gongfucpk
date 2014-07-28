@@ -90,10 +90,8 @@ void Cpk::writeItem(int index)
 	sprintf(dirpath, "out/%s/%X/", m_path, cc.FatherCRC);
 	sprintf(outpath, "out/%s/%X/%X", m_path, cc.FatherCRC, cc.CRC);
 
-	cout << "[WRITE] [" << index << "] " << outpath << endl;
 
 	Util::mkdir(dirpath);
-	ofstream out(outpath, ios::out|ios::binary);
 
 	char * data = new char[cc.PackedSize];
 
@@ -107,7 +105,12 @@ void Cpk::writeItem(int index)
 		int ret = lzo1x_decompress((lzo_byte*)data, cc.PackedSize, (lzo_byte*)buff, (lzo_uint*)&size, NULL);
 		if(ret == LZO_E_OK && size == cc.OriginSize)
 		{
+			const char* ext = Util::guess((const char*)buff);
+			strcat(outpath, ext);
+			cout << "[WRITE] [" << index << "] " << outpath << endl;
+			ofstream out(outpath, ios::out|ios::binary);
 			out.write(buff, size);
+			out.close();
 		}else
 		{
 			cout << "[CPK]writeItem: Lzo Decompress Failed For " << outpath << "(" << size << "/" << cc.OriginSize << ")" << endl;
@@ -115,11 +118,13 @@ void Cpk::writeItem(int index)
 		delete []buff;
 	}else if(GET_EFMT(cc.Flag) == EFMT_None)
 	{
+		const char* ext = Util::guess((const char*)data);
+		strcat(outpath, ext);
+		cout << "[WRITE] [" << index << "] " << outpath << endl;
+		ofstream out(outpath, ios::out|ios::binary);
 		out.write(data, cc.PackedSize);
+		out.close();
 	}
-
-	out.close();
-
 
 	delete []data;
  

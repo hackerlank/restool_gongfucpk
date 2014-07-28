@@ -12,6 +12,7 @@ class Util
 {
 public:
 	static bool mkdir(const char* path);
+	static const char* guess(const char* data);
 
 };
 
