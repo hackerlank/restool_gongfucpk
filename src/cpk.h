@@ -1,19 +1,7 @@
 #ifndef __CPK_H__
 #define __CPK_H__
 
-#include <string.h>
-#include <iostream>
-#include <fstream>
-using namespace std;
-
-
-typedef signed char         int8;
-typedef short               int16;
-typedef int                 int32;
-
-typedef unsigned char       uint8;
-typedef unsigned short      uint16;
-typedef unsigned int        uint32;
+#include "define.h"
 
 #pragma pack(4)
 typedef struct _CpkHead
