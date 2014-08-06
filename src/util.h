@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <iostream>
+#include "define.h"
 using namespace std;
 
 class Util
@@ -13,6 +14,7 @@ class Util
 public:
 	static bool mkdir(const char* path);
 	static const char* guess(const char* data);
+	static uint32 crc32(const char* pData, int nByteCount);
 
 };
 
