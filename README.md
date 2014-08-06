@@ -1,4 +1,4 @@
-cpktool
+restool
 =======
 
-cpktool: file util
+restool: file util for test
