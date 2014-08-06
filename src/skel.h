@@ -3,23 +3,7 @@
 
 #include "define.h"
 
-
 #pragma pack(4)
-
-typedef struct _vec3
-{
-	float x;
-	float y;
-	float z;
-} vec3;
-
-typedef struct _quat
-{
-	float x;
-	float y;
-	float z;
-	float w;
-} quat;
 
 typedef struct _BoneData
 {
@@ -53,6 +37,8 @@ typedef struct _SkelHead
     uint32 frameOffset;  // 动画帧起始地址
 } SkelHead;
 
+#pragma pack()
+
 typedef struct _SkelInfo
 {
 	vector<string> boneNames;
@@ -69,10 +55,6 @@ typedef struct _SkelFrame
 	vector<BoneNode> boneNodes;
 } SkelFrame;
 
-
-
-
-#pragma pack()
 
 
 class Skel

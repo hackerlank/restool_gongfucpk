@@ -2,15 +2,14 @@
 #include "util.h"
 #include "cpk.h"
 #include "skel.h"
+#include "skin.h"
 #include "minilzo/minilzo.h"
 
 using namespace std;
 
 
-void read_cpk()
+void read_cpk(const char *filename)
 {
-	//const char * filename = "res/cpk/g78.cpk";
-	const char * filename = "res/cpk/system.cpk";
 	Cpk cpk(filename);
 
 	cpk.showHeadInfo();
@@ -24,18 +23,33 @@ void read_cpk()
 }
 
 
-void read_skel()
+void read_skel(const char *filename)
 {
-	const char * filename = "res/skel/6779ED9F.skel";
 	Skel skel(filename);
 
 	skel.showHeadInfo();
 
 }
- 
-int main()
+
+void read_skin(const char *filename)
 {
-	//read_cpk();
-	read_skel();
+	Skin skin(filename);
+
+	skin.showHeadInfo();
+}
+ 
+int main(int argc, char* argv[])
+{
+	//read_cpk("res/cpk/g78.cpk");
+	//read_cpk("res/cpk/system.cpk")
+	
+	//read_skel("res/skel/6779ED9F.skel");
+	
+	//read_skin("res/skin/F569E90.skin");
+	//read_skin("../gameres/skin/D503B2AC/A401EF34.skin");
+
+	for(int i = 1; i < argc; i ++)
+		read_skin(argv[i]);
+
 	return 0;
 }

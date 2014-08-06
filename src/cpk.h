@@ -3,7 +3,6 @@
 
 #include "define.h"
 
-#pragma pack(4)
 typedef struct _CpkHead
 {
     uint32 Lable;        // 类型标志
@@ -32,8 +31,6 @@ typedef struct _CpkItem
 } CpkItem;  
 
 
-
-#pragma pack()
 
 enum EFMT
 {
