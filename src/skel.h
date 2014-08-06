@@ -23,9 +23,9 @@ typedef struct _quat
 
 typedef struct _BoneData
 {
-	uint32 id;
-	uint32 parent;
-	vector<uint32> children;
+	int32 id;
+	int32 parent;
+	vector<int32> children;
 
 	vec3 trans;
 	quat rotat;
