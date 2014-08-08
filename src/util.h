@@ -13,9 +13,12 @@ class Util
 {
 public:
 	static bool mkdir(const char* path);
+	static void fpath(const char* path, char* dest);
+	static void fcopy(const char* path, const char* dest, bool delflag = false);
 	static const char* guess(const char* data);
 	static uint32 crc32(const char* pData, int nByteCount);
 
+	static void trans(const char* dest);
 };
 
 

@@ -88,6 +88,7 @@ public:
 	~Skin();
 
 	void showHeadInfo();
+	void showMaterialInfo();
 
 	SkinVert readSkinVert(int i);
 	SkinMesh readSkinMesh(int i);

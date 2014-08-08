@@ -39,8 +39,16 @@ const unsigned long globe_Crc32Table[256]={
 
 bool Util::mkdir(const char *path)
 {  
+
 	char DirName[256];  
 	strcpy(DirName, path);  
+
+	for(int t = 0; t < strlen(DirName); t++)
+	{
+		if(DirName[t] == '\\')
+			DirName[t] = '/';
+	}
+
 
 	int len = strlen(DirName);  
 	
@@ -69,6 +77,48 @@ bool Util::mkdir(const char *path)
 	return true;  
 }  
 
+void Util::fpath(const char* path, char* dir)
+{
+	strcpy(dir, path);  
+	for(int i = strlen(dir); i > 0; i--)
+	{
+		if(dir[i] == '/' || dir[i] == '\\')
+		{
+			dir[i] = '\0';
+			break;
+		}
+	}
+}
+
+void Util::fcopy(const char* path, const char* dest, bool delflag)
+{
+	char p[256];
+	Util::fpath(path, p);
+	Util::mkdir(p);
+	Util::fpath(dest, p);
+	Util::mkdir(p);
+
+	strcpy(p, dest);  
+	for(int t = 0; t < strlen(p); t++)
+	{
+		if(p[t] == '\\')
+			p[t] = '/';
+	}
+	cout <<"[OP]copy " << path << " -> " << p << endl;
+
+	ifstream in(path, ios::in|ios::binary);
+	if(in.is_open())
+	{
+	    ofstream out(p, ios::out|ios::binary);
+
+	    out << in.rdbuf();
+	    out.close();
+	    in.close();
+
+		if(delflag)
+	    	::remove(path);
+	}
+}
 
 const char* Util::guess(const char *data)
 {
@@ -134,4 +184,93 @@ uint32 Util::crc32(const char* pData, int nByteCount)
 	}
 
 	return ~unResult;
+}
+
+
+
+void Util::trans(const char* dest)
+{
+
+	mkdir(dest);
+
+	ifstream ff("res/reslist");
+
+	char path[256];
+	char tex[256];
+	int  n;
+	while(true)
+	{
+		ff >> path >> n;
+		if(ff.eof())
+			break;
+
+		cout << path << "  "<< n << endl;
+		for(int i = 0; i < n; i ++)
+		{
+			ff >> tex;
+
+			int m = 0;
+			while(tex[m])  
+			{
+	  			tex[m] = tolower(tex[m]);  
+				m++;
+			}
+
+			char dir[256];
+			Util::fpath(tex, dir);
+			int pcrc = Util::crc32(dir, strlen(dir));
+
+			int crc = Util::crc32(tex, strlen(tex));
+			char srcPath[256];
+			sprintf(srcPath, "../gameres/system.cpk/%X/%X.tga", pcrc, crc);
+			char dstPath[256];
+			strcpy(dstPath, dest);
+			strcat(dstPath, tex);
+			Util::fcopy(srcPath, dstPath, true);
+
+
+			tex[m-3] = 'd';
+			tex[m-2] = 'd';
+			tex[m-1] = 's';
+
+			crc = Util::crc32(tex, strlen(tex));
+
+			sprintf(srcPath, "../gameres/system.cpk/%X/%X.dds", pcrc, crc);
+
+			strcpy(dstPath, dest);
+			strcat(dstPath, tex);
+
+			Util::fcopy(srcPath, dstPath, true);
+		}
+
+		char skinPath[256];
+		strcpy(skinPath, dest);
+		strcat(skinPath, tex);
+
+		if(n > 1)
+		{
+			for(int t = strlen(skinPath); t > 0; t--)
+			{
+				if(skinPath[t] == '_')
+				{
+					skinPath[t] = '\0';
+					break;
+				}
+
+			}
+			strcat(skinPath, ".skin");
+		}
+		else
+		{
+			int t = strlen(skinPath);
+			skinPath[t-3] = 's';
+			skinPath[t-2] = 'k';
+			skinPath[t-1] = 'i';
+			skinPath[t] = 'n';
+			skinPath[t+1] = '\0';
+		}
+		Util::fcopy(path, skinPath);
+
+	}
+
 }

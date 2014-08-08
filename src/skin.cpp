@@ -132,11 +132,37 @@ Material Skin::readMaterial(int i)
 	Material m;
 	m_file.read((char *)&m, sizeof(m));
 
+ 
 	for(int t = 0; t < EMap_Max; t++)
+	{
 		cout << "[Skin]map["<<t<<"]"<<m.map[t]<<endl;
+		if(strlen(m.map[t])>0)
+			cout << "[IIII]" << m.map[t] <<endl;
+	}
 	return m;
 }
 
 
+void Skin::showMaterialInfo()
+{
+	cout << "[MMMM]"<< m_path << endl;
+	int cc = 0;
+	for(int i = 0; i < m_mtlList.size(); i++)
+	{
+		for(int t = 0; t < EMap_Max; t++)
+		{
+			if(strlen(m_mtlList[i].map[t])>0)
+				cc ++;
+		}
+	}
+	cout << dec << "[MMMM]"<< cc << endl;
 
-
+	for(int i = 0; i < m_mtlList.size(); i++)
+	{
+		for(int t = 0; t < EMap_Max; t++)
+		{
+			if(strlen(m_mtlList[i].map[t])>0)
+				cout << "[MMMM]" << m_mtlList[i].map[t] <<endl;
+		}
+	}
+}
