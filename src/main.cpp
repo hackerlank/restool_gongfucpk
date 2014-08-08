@@ -42,7 +42,7 @@ void read_skin(const char *filename)
 int main(int argc, char* argv[])
 {
 	//read_cpk("res/cpk/g78.cpk");
-	read_cpk("res/cpk/system.cpk");
+	//read_cpk("res/cpk/system.cpk");
 	
 	//read_skel("res/skel/6779ED9F.skel");
 	
@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
 	//cout << hex << showbase << Util::crc32(str, strlen(str)) << endl;
 	
 
-	//Util::trans("out/res/");
+	Util::trans("out/res/");
 
 	return 0;
 }
