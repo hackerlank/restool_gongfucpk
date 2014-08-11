@@ -269,7 +269,7 @@ void Util::trans(const char* dest)
 			skinPath[t] = 'n';
 			skinPath[t+1] = '\0';
 		}
-		Util::fcopy(path, skinPath);
+		Util::fcopy(path, skinPath, true);
 
 	}
 
