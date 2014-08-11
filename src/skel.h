@@ -72,7 +72,6 @@ public:
 	SkelHead m_head;
 	SkelInfo m_info;
 
-	int		 m_frameNum;
 	vector<SkelFrame> m_frames;
 };
 
