@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
 	
 	//read_skel("res/skel/6779ED9F.skel");
 	
-	//read_skin("res/skin/F569E90.skin");
+	read_skin("res/skin/F569E90.skin");
 
 	//for(int i = 1; i < argc; i ++)
 	//	read_skin(argv[i]);
@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
 	//cout << hex << showbase << Util::crc32(str, strlen(str)) << endl;
 	
 
-	Util::trans("out/res/");
+	//Util::trans("out/res/");
 
 	return 0;
 }
