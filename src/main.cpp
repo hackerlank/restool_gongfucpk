@@ -46,10 +46,10 @@ int main(int argc, char* argv[])
 	
 	//read_skel("res/skel/6779ED9F.skel");
 	
-	read_skin("res/skin/F569E90.skin");
+	//read_skin("res/skin/F569E90.skin");
 
-	//for(int i = 1; i < argc; i ++)
-	//	read_skin(argv[i]);
+	for(int i = 1; i < argc; i ++)
+		read_skin(argv[i]);
 	
 	//const char * dir = "system\\boot";
 	//cout << hex << showbase << Util::crc32(dir, strlen(dir)) << endl;

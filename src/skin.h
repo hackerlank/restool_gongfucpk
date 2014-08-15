@@ -37,12 +37,6 @@ typedef struct _MeshTri
 	uint16 index[3];
 } MeshTri;
 
-//typedef struct _MeshMat
-//{
-//	int boneId;
-//	mat4 offsetMat;
-//} MeshMat;
-
 typedef struct _SkinMesh
 {
 	uint16 baseIndex;
@@ -56,8 +50,6 @@ typedef struct _SkinMesh
 
 	int lodNum;
 	vector<MeshTri> lodFaces[4];
-
-	//vector<MeshMat> matBones;
 } SkinMesh;  
 
 typedef struct _SkinBone
@@ -71,9 +63,6 @@ typedef struct _SkinVert
 {
 	vec3	pos;
 	vec3	normal;
-	//vec3	tangent;
-	//vec4	blendWeight;
-	//uint32	blendIndices;
 	vec2	uv;
 
 	vector<SkinBone> bones;

@@ -109,20 +109,13 @@ SkinMesh Skin::readSkinMesh(int idx)
 			m_file.read((char *)&t, sizeof(t));
 			m.lodFaces[i].push_back(t);
 		}
+		if(n > 0)
+			cout << "[LLLL]" << m_path << " lodNum " << i << " " << n <<endl;
+
 	}
 
 	cout << "[Skin]readSkinMesh(" << idx << ") base:" << n << " lods: " << m.lodNum << endl;
 	
-	//uint32 matNum;
-	//m_file.read((char *)&matNum, sizeof(matNum));
-	//cout<<"+++++++++++++++++matNum"<<matNum<<endl;
-	//for(int i = 0; i < matNum; i++)
-	//{
-	//	MeshMat mat;
-	//	m_file.read((char *)&mat, sizeof(mat));
-	//	m.matBones.push_back(mat);
-	//}
-
 	return m;
 }
 
@@ -135,10 +128,13 @@ Material Skin::readMaterial(int i)
  
 	for(int t = 0; t < EMap_Max; t++)
 	{
-		cout << "[Skin]map["<<t<<"]"<<m.map[t]<<endl;
-		if(strlen(m.map[t])>0)
-			cout << "[IIII]" << m.map[t] <<endl;
+		if(strlen(m.map[t])>0 && t > 0)
+			cout << "[TTTT]" << m_path << "map" << t << " "<<m.map[t] <<endl;
 	}
+	
+	if(m_meshList[i].baseFaces.size() < 32)
+		cout << "[IIII]" << m_path << " mtl "<< i << " " << m.map[0] << " "<<m_meshList[i].baseFaces.size() << endl;
+
 	return m;
 }
 
