@@ -18,7 +18,8 @@ public:
 	static const char* guess(const char* data);
 	static uint32 crc32(const char* pData, int nByteCount);
 
-	static void trans(const char* dest);
+	static void transSkin(const char* dest);
+	static void transSkel(const char* dest);
 };
 
 

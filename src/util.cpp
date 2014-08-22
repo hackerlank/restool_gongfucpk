@@ -188,7 +188,7 @@ uint32 Util::crc32(const char* pData, int nByteCount)
 
 
 
-void Util::trans(const char* dest)
+void Util::transSkin(const char* dest)
 {
 
 	mkdir(dest);
@@ -251,6 +251,9 @@ void Util::trans(const char* dest)
 		{
 			for(int t = strlen(skinPath); t > 0; t--)
 			{
+				if(skinPath[t] == '.')
+					skinPath[t] = '\0';
+
 				if(skinPath[t] == '_')
 				{
 					skinPath[t] = '\0';
@@ -271,6 +274,69 @@ void Util::trans(const char* dest)
 		}
 		Util::fcopy(path, skinPath, true);
 
+	}
+
+}
+
+
+void Util::transSkel(const char* dest)
+{
+
+	mkdir(dest);
+
+	ifstream ff("res/skellist");
+
+	char path[256];
+	int  n;
+	while(true)
+	{
+		ff >> path >> n;
+		//cout << path << endl;
+		if(ff.eof())
+			break;
+
+		char name[256] = {0};
+		char last[32] = {0};
+		char temp[32] = {0};
+		for(int i = 0; i < n; i ++)
+		{
+			ff >> temp;
+			if(strcmp(temp, last) != 0)
+			{
+				if(i > 0)
+					strcat(name, "_");
+				strcat(name, temp);
+				strcpy(last, temp);
+			}
+		}
+
+
+		char tdir[32] = {0};
+		int d1 = 0;
+		int d2 = 0;
+		for(int i = strlen(path); i > 0; i--)
+		{
+			if(path[i] == '/')
+			{
+				if(d1 == 0)
+					d1 = i;
+				else
+				{
+					d2 = i;
+					break;
+				}
+
+			}
+		}
+		strncpy(tdir, path + d2 + 1, d1 - d2);
+
+		char skelPath[256];
+		strcpy(skelPath, dest);
+		strcat(skelPath, tdir);
+		strcat(skelPath, name);
+		strcat(skelPath, ".skel");
+		cout << "copy skel file: " << skelPath << endl;
+		Util::fcopy(path, skelPath, false);
 	}
 
 }
