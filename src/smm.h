@@ -4,7 +4,6 @@
 #include "define.h"
 #include "vertex.h"
 #include "material.h"
-#include "material.h"
 
 
 #pragma pack(4)
