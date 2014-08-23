@@ -24,8 +24,8 @@ typedef struct _SmmHead
 	uint32 		mtlNum;
     uint32 		mtlOffset;  
 	
-	uint32		tagNum;
-	uint32		tagOffset;
+	uint32		nodeNum;
+	uint32		nodeOffset;
 
 	vec3		min;
 	vec3		max;

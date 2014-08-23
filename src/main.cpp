@@ -74,7 +74,7 @@ int main(int argc, char* argv[])
 
 	//Util::transSkin("out/res/");
 	//Util::transSkel("out/res/");
-	Util::transSmm("out/res/");
+	//Util::transSmm("out/res/");
 
 	return 0;
 }

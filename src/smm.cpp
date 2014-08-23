@@ -29,15 +29,15 @@ Smm::Smm(const char* filename)
 	for(int i = 0; i < m_head.mtlNum; i++)
 		m_mtlList.push_back(readMaterial(i));
 	cout << "read mtl finish: " << hex << showbase << m_file.tellg() << endl;
-	//read tag
-	m_file.seekg(m_head.tagOffset);
+	//read node
+	m_file.seekg(m_head.nodeOffset);
 	uint32 nodeNum;
 	m_file.read((char *)&nodeNum, sizeof(nodeNum));
-	if(nodeNum != m_head.tagNum)
-		cout << "[SMM]ERROR node num " << nodeNum << m_head.tagNum << endl;
-	for(int i = 0; i < m_head.tagNum; i++)
+	if(nodeNum != m_head.nodeNum)
+		cout << "[SMM]ERROR node num " << nodeNum << m_head.nodeNum << endl;
+	for(int i = 0; i < m_head.nodeNum; i++)
 		m_nodeList.push_back(readSmmNode(i));
-	cout << "read tag finish: " << hex << showbase << m_file.tellg() << endl;
+	cout << "read node finish: " << hex << showbase << m_file.tellg() << endl;
 
 
 }
@@ -62,8 +62,8 @@ void Smm::showHeadInfo()
     cout << "meshOffset " << hex << showbase << m_head.meshOffset  << endl; 
     cout << "mtlNum     " << dec << showbase << m_head.mtlNum      << endl; 
     cout << "mtlOffset  " << hex << showbase << m_head.mtlOffset   << endl; 
-    cout << "tagNum     " << dec << showbase << m_head.tagNum      << endl; 
-    cout << "tagOffset  " << hex << showbase << m_head.tagOffset   << endl; 
+    cout << "nodeNum     " << dec << showbase << m_head.nodeNum      << endl; 
+    cout << "nodeOffset  " << hex << showbase << m_head.nodeOffset   << endl; 
 	cout << "=================================================" << endl;
 
 }
