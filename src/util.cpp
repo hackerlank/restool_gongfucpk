@@ -212,8 +212,6 @@ void Util::transSkin(const char* dest)
 			int m = 0;
 			while(tex[m])  
 			{
-				if(tex[m] == '\\')
-					tex[m] = '/';
 	  			tex[m] = tolower(tex[m]);  
 				m++;
 			}
@@ -228,6 +226,11 @@ void Util::transSkin(const char* dest)
 			char dstPath[256];
 			strcpy(dstPath, dest);
 			strcat(dstPath, tex);
+			for(int m = 0; m < strlen(dstPath); m ++)
+				if(dstPath[m] == '\\')
+					dstPath[m] = '/';
+
+			
 			Util::fcopy(srcPath, dstPath, false);
 
 
@@ -241,6 +244,10 @@ void Util::transSkin(const char* dest)
 
 			strcpy(dstPath, dest);
 			strcat(dstPath, tex);
+			for(int m = 0; m < strlen(dstPath); m ++)
+				if(dstPath[m] == '\\')
+					dstPath[m] = '/';
+
 
 			Util::fcopy(srcPath, dstPath, false);
 		}
@@ -368,8 +375,6 @@ void Util::transSmm(const char* dest)
 			int m = 0;
 			while(tex[m])  
 			{
-				if(tex[m] == '\\')
-					tex[m] = '/';
 	  			tex[m] = tolower(tex[m]);  
 				m++;
 			}
@@ -404,6 +409,10 @@ void Util::transSmm(const char* dest)
 		char smmPath[256];
 		strcpy(smmPath, dest);
 		strcat(smmPath, tex);
+		for(int t = strlen(smmPath); t > 0; t--)
+			if(smmPath[t] == '\\')
+				smmPath[t] = '/';
+
 
 		for(int t = strlen(smmPath); t > 0; t--)
 		{
