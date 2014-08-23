@@ -51,7 +51,7 @@ void read_smm(const char *filename)
 int main(int argc, char* argv[])
 {
 	//read_cpk("res/cpk/g78.cpk");
-	//read_cpk("res/cpk/system.cpk");
+	//read_cpk("../system.cpk");
 	
 	//read_skel("res/skel/6779ED9F.skel");
 	//for(int i = 1; i < argc; i ++)
@@ -72,9 +72,9 @@ int main(int argc, char* argv[])
 	//cout << hex << showbase << Util::crc32(str, strlen(str)) << endl;
 	
 
-	//Util::transSkin("out/res/");
-	//Util::transSkel("out/res/");
-	//Util::transSmm("out/res/");
+	//Util::transSkin("out/");
+	//Util::transSkel("out/");
+	Util::transSmm("out/");
 
 	return 0;
 }

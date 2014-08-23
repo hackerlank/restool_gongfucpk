@@ -212,6 +212,8 @@ void Util::transSkin(const char* dest)
 			int m = 0;
 			while(tex[m])  
 			{
+				if(tex[m] == '\\')
+					tex[m] = '/';
 	  			tex[m] = tolower(tex[m]);  
 				m++;
 			}
@@ -226,7 +228,7 @@ void Util::transSkin(const char* dest)
 			char dstPath[256];
 			strcpy(dstPath, dest);
 			strcat(dstPath, tex);
-			Util::fcopy(srcPath, dstPath, true);
+			Util::fcopy(srcPath, dstPath, false);
 
 
 			tex[m-3] = 'd';
@@ -240,7 +242,7 @@ void Util::transSkin(const char* dest)
 			strcpy(dstPath, dest);
 			strcat(dstPath, tex);
 
-			Util::fcopy(srcPath, dstPath, true);
+			Util::fcopy(srcPath, dstPath, false);
 		}
 
 		char skinPath[256];
@@ -272,7 +274,7 @@ void Util::transSkin(const char* dest)
 			skinPath[t] = 'n';
 			skinPath[t+1] = '\0';
 		}
-		Util::fcopy(path, skinPath, true);
+		Util::fcopy(path, skinPath, false);
 
 	}
 
@@ -336,7 +338,7 @@ void Util::transSkel(const char* dest)
 		strcat(skelPath, name);
 		strcat(skelPath, ".skel");
 		cout << "copy skel file: " << skelPath << endl;
-		Util::fcopy(path, skelPath, true);
+		Util::fcopy(path, skelPath, false);
 	}
 
 }
@@ -366,6 +368,8 @@ void Util::transSmm(const char* dest)
 			int m = 0;
 			while(tex[m])  
 			{
+				if(tex[m] == '\\')
+					tex[m] = '/';
 	  			tex[m] = tolower(tex[m]);  
 				m++;
 			}
@@ -380,7 +384,7 @@ void Util::transSmm(const char* dest)
 			char dstPath[256];
 			strcpy(dstPath, dest);
 			strcat(dstPath, tex);
-			Util::fcopy(srcPath, dstPath, true);
+			Util::fcopy(srcPath, dstPath, false);
 
 
 			tex[m-3] = 'd';
@@ -394,7 +398,7 @@ void Util::transSmm(const char* dest)
 			strcpy(dstPath, dest);
 			strcat(dstPath, tex);
 
-			Util::fcopy(srcPath, dstPath, true);
+			Util::fcopy(srcPath, dstPath, false);
 		}
 
 		char smmPath[256];
@@ -413,9 +417,94 @@ void Util::transSmm(const char* dest)
 			}
 
 		}
-		strcat(smmPath, ".smm");
-		Util::fcopy(path, smmPath, true);
+		for(int t = strlen(smmPath); t > 0; t--)
+		{
+			if(smmPath[t] == '-')
+			{
+				char n[3] = {0};
+				n[0] = smmPath[t-2];
+				n[1] = smmPath[t-1];
+	
+				char tdir[32] = {0};
+				int d1 = 0;
+				int d2 = 0;
+				for(int i = strlen(smmPath); i > 0; i--)
+				{
+					if(smmPath[i] == '/')
+					{
+						if(d1 == 0)
+							d1 = i;
+						else
+						{
+							d2 = i;
+							break;
+						}
 
+					}
+				}
+				strncpy(tdir, smmPath + d2 + 1, d1 - d2);
+				cout << tdir << endl;
+				if(strcmp(tdir, "chui/") == 0)
+				{
+					smmPath[d1 + 1] = '\0';
+					strcat(smmPath, "c");
+					strcat(smmPath, n);
+				}
+				else if(strcmp(tdir, "dao/") == 0)
+				{
+					smmPath[d1 + 1] = '\0';
+					strcat(smmPath, "d");
+					strcat(smmPath, n);
+				}
+				else if(strcmp(tdir, "gong/") == 0)
+				{
+					smmPath[d1 + 1] = '\0';
+					strcat(smmPath, "n");
+					strcat(smmPath, n);
+				}
+				else if(strcmp(tdir, "gou/") == 0)
+				{
+					smmPath[d1 + 1] = '\0';
+					strcat(smmPath, "g");
+					strcat(smmPath, n);
+				}
+				else if(strcmp(tdir, "gun/") == 0)
+				{
+					smmPath[d1 + 1] = '\0';
+					strcat(smmPath, "b");
+					strcat(smmPath, n);
+				}
+				else if(strcmp(tdir, "jian/") == 0)
+				{
+					smmPath[d1 + 1] = '\0';
+					strcat(smmPath, "j");
+					strcat(smmPath, n);
+				}
+				else if(strcmp(tdir, "qiang/") == 0)
+				{
+					smmPath[d1 + 1] = '\0';
+					strcat(smmPath, "q");
+					strcat(smmPath, n);
+				}
+				else if(strcmp(tdir, "quan/") == 0)
+				{
+					smmPath[d1 + 1] = '\0';
+					strcat(smmPath, "z");
+					strcat(smmPath, n);
+				}
+				else if(strcmp(tdir, "shan/") == 0)
+				{
+					smmPath[d1 + 1] = '\0';
+					strcat(smmPath, "s");
+					strcat(smmPath, n);
+				}
+				break;
+			}
+		}
+
+		strcat(smmPath, ".smm");
+		cout << "copy smm: " << path << " -> " << smmPath << endl;
+		Util::fcopy(path, smmPath, false);
 	}
 
 }
