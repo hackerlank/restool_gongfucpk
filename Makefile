@@ -32,7 +32,7 @@ obj/%.o:%.c
 	@mkdir -p $(@D)
 	g++ -c $< -o $@
 
-run:
+run: all
 	./bin/$(TARGET)
 
 clean:

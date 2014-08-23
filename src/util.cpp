@@ -240,7 +240,11 @@ void Util::transSkin(const char* dest)
 
 			crc = Util::crc32(tex, strlen(tex));
 
-			sprintf(srcPath, "../gameres/system.cpk/%X/%X.dds", pcrc, crc);
+			sprintf(srcPath, "../gameres/system.cpk/%X/%X.tga", pcrc, crc);
+			tex[m-3] = 't';
+			tex[m-2] = 'g';
+			tex[m-1] = 'a';
+
 
 			strcpy(dstPath, dest);
 			strcat(dstPath, tex);
@@ -368,6 +372,9 @@ void Util::transSmm(const char* dest)
 			break;
 
 		cout << path << "  "<< n << endl;
+		char dir[256];
+		int pcrc;
+		int crc;
 		for(int i = 0; i < n; i ++)
 		{
 			ff >> tex;
@@ -378,12 +385,11 @@ void Util::transSmm(const char* dest)
 	  			tex[m] = tolower(tex[m]);  
 				m++;
 			}
+			cout << tex << endl;
 
-			char dir[256];
 			Util::fpath(tex, dir);
-			int pcrc = Util::crc32(dir, strlen(dir));
-
-			int crc = Util::crc32(tex, strlen(tex));
+			pcrc = Util::crc32(dir, strlen(dir));
+			crc = Util::crc32(tex, strlen(tex));
 			char srcPath[256];
 			sprintf(srcPath, "../gameres/system.cpk/%X/%X.tga", pcrc, crc);
 			char dstPath[256];
@@ -398,7 +404,11 @@ void Util::transSmm(const char* dest)
 
 			crc = Util::crc32(tex, strlen(tex));
 
-			sprintf(srcPath, "../gameres/system.cpk/%X/%X.dds", pcrc, crc);
+			sprintf(srcPath, "../gameres/system.cpk/%X/%X.tga", pcrc, crc);
+			tex[m-3] = 't';
+			tex[m-2] = 'g';
+			tex[m-1] = 'a';
+
 
 			strcpy(dstPath, dest);
 			strcat(dstPath, tex);
@@ -406,9 +416,38 @@ void Util::transSmm(const char* dest)
 			Util::fcopy(srcPath, dstPath, false);
 		}
 
+		int dirLen = strlen(dir);
+		const char *tagList = "cdngbjqzs";
+		for(int i = 0; i < 99; i++)
+		{
+			for(int j = 0; j < strlen(tagList); j++)
+			{
+				dir[dirLen] = '\\';
+				dir[dirLen + 1] = tagList[j];
+				dir[dirLen + 2] = 48 + i/10;
+				dir[dirLen + 3] = 48 + i%10;
+				dir[dirLen + 4] = '.';
+				dir[dirLen + 5] = 'f';
+				dir[dirLen + 6] = 's';
+				dir[dirLen + 7] = 'm';
+				dir[dirLen + 8] = '\0';
+
+				char crcPath[256];
+				crc = Util::crc32(dir, strlen(dir));
+				sprintf(crcPath, "../gameres/system.cpk/%X/%X.smm", pcrc, crc);
+				if(strcmp(path, crcPath) == 0)
+				{
+					strcpy(tex, dir);
+					i = 100;
+					break;
+				}
+			}
+		}
+
 		char smmPath[256];
 		strcpy(smmPath, dest);
 		strcat(smmPath, tex);
+
 		for(int t = strlen(smmPath); t > 0; t--)
 			if(smmPath[t] == '\\')
 				smmPath[t] = '/';
@@ -426,93 +465,8 @@ void Util::transSmm(const char* dest)
 			}
 
 		}
-		for(int t = strlen(smmPath); t > 0; t--)
-		{
-			if(smmPath[t] == '-')
-			{
-				char n[3] = {0};
-				n[0] = smmPath[t-2];
-				n[1] = smmPath[t-1];
-	
-				char tdir[32] = {0};
-				int d1 = 0;
-				int d2 = 0;
-				for(int i = strlen(smmPath); i > 0; i--)
-				{
-					if(smmPath[i] == '/')
-					{
-						if(d1 == 0)
-							d1 = i;
-						else
-						{
-							d2 = i;
-							break;
-						}
-
-					}
-				}
-				strncpy(tdir, smmPath + d2 + 1, d1 - d2);
-				cout << tdir << endl;
-				if(strcmp(tdir, "chui/") == 0)
-				{
-					smmPath[d1 + 1] = '\0';
-					strcat(smmPath, "c");
-					strcat(smmPath, n);
-				}
-				else if(strcmp(tdir, "dao/") == 0)
-				{
-					smmPath[d1 + 1] = '\0';
-					strcat(smmPath, "d");
-					strcat(smmPath, n);
-				}
-				else if(strcmp(tdir, "gong/") == 0)
-				{
-					smmPath[d1 + 1] = '\0';
-					strcat(smmPath, "n");
-					strcat(smmPath, n);
-				}
-				else if(strcmp(tdir, "gou/") == 0)
-				{
-					smmPath[d1 + 1] = '\0';
-					strcat(smmPath, "g");
-					strcat(smmPath, n);
-				}
-				else if(strcmp(tdir, "gun/") == 0)
-				{
-					smmPath[d1 + 1] = '\0';
-					strcat(smmPath, "b");
-					strcat(smmPath, n);
-				}
-				else if(strcmp(tdir, "jian/") == 0)
-				{
-					smmPath[d1 + 1] = '\0';
-					strcat(smmPath, "j");
-					strcat(smmPath, n);
-				}
-				else if(strcmp(tdir, "qiang/") == 0)
-				{
-					smmPath[d1 + 1] = '\0';
-					strcat(smmPath, "q");
-					strcat(smmPath, n);
-				}
-				else if(strcmp(tdir, "quan/") == 0)
-				{
-					smmPath[d1 + 1] = '\0';
-					strcat(smmPath, "z");
-					strcat(smmPath, n);
-				}
-				else if(strcmp(tdir, "shan/") == 0)
-				{
-					smmPath[d1 + 1] = '\0';
-					strcat(smmPath, "s");
-					strcat(smmPath, n);
-				}
-				break;
-			}
-		}
 
 		strcat(smmPath, ".smm");
-		cout << "copy smm: " << path << " -> " << smmPath << endl;
 		Util::fcopy(path, smmPath, false);
 	}
 
