@@ -1,9 +1,10 @@
 #include <iostream>
+#include "minilzo/minilzo.h"
 #include "util.h"
 #include "cpk.h"
 #include "skel.h"
 #include "skin.h"
-#include "minilzo/minilzo.h"
+#include "smm.h"
 
 using namespace std;
 
@@ -38,6 +39,14 @@ void read_skin(const char *filename)
 	//skin.showHeadInfo();
 	skin.showMaterialInfo();
 }
+
+void read_smm(const char *filename)
+{
+	Smm smm(filename);
+	//smm.showHeadInfo();
+	smm.showMaterialInfo();
+}
+	
  
 int main(int argc, char* argv[])
 {
@@ -52,6 +61,11 @@ int main(int argc, char* argv[])
 	//for(int i = 1; i < argc; i ++)
 	//	read_skin(argv[i]);
 	
+	//read_smm("res/smm/64212A26.smm");
+	//for(int i = 1; i < argc; i ++)
+	//	read_smm(argv[i]);
+	
+
 	//const char * dir = "system\\boot";
 	//cout << hex << showbase << Util::crc32(dir, strlen(dir)) << endl;
 	//const char * str = "system\\boot\\fx28.dds";
@@ -59,7 +73,8 @@ int main(int argc, char* argv[])
 	
 
 	//Util::transSkin("out/res/");
-	Util::transSkel("out/res/");
+	//Util::transSkel("out/res/");
+	Util::transSmm("out/res/");
 
 	return 0;
 }

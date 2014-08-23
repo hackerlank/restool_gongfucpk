@@ -193,7 +193,7 @@ void Util::transSkin(const char* dest)
 
 	mkdir(dest);
 
-	ifstream ff("res/reslist");
+	ifstream ff("res/skinlist");
 
 	char path[256];
 	char tex[256];
@@ -336,7 +336,88 @@ void Util::transSkel(const char* dest)
 		strcat(skelPath, name);
 		strcat(skelPath, ".skel");
 		cout << "copy skel file: " << skelPath << endl;
-		Util::fcopy(path, skelPath, false);
+		Util::fcopy(path, skelPath, true);
 	}
 
 }
+
+
+void Util::transSmm(const char* dest)
+{
+
+	mkdir(dest);
+
+	ifstream ff("res/smmlist");
+
+	char path[256];
+	char tex[256];
+	int  n;
+	while(true)
+	{
+		ff >> path >> n;
+		if(ff.eof())
+			break;
+
+		cout << path << "  "<< n << endl;
+		for(int i = 0; i < n; i ++)
+		{
+			ff >> tex;
+
+			int m = 0;
+			while(tex[m])  
+			{
+	  			tex[m] = tolower(tex[m]);  
+				m++;
+			}
+
+			char dir[256];
+			Util::fpath(tex, dir);
+			int pcrc = Util::crc32(dir, strlen(dir));
+
+			int crc = Util::crc32(tex, strlen(tex));
+			char srcPath[256];
+			sprintf(srcPath, "../gameres/system.cpk/%X/%X.tga", pcrc, crc);
+			char dstPath[256];
+			strcpy(dstPath, dest);
+			strcat(dstPath, tex);
+			Util::fcopy(srcPath, dstPath, true);
+
+
+			tex[m-3] = 'd';
+			tex[m-2] = 'd';
+			tex[m-1] = 's';
+
+			crc = Util::crc32(tex, strlen(tex));
+
+			sprintf(srcPath, "../gameres/system.cpk/%X/%X.dds", pcrc, crc);
+
+			strcpy(dstPath, dest);
+			strcat(dstPath, tex);
+
+			Util::fcopy(srcPath, dstPath, true);
+		}
+
+		char smmPath[256];
+		strcpy(smmPath, dest);
+		strcat(smmPath, tex);
+
+		for(int t = strlen(smmPath); t > 0; t--)
+		{
+			if(smmPath[t] == '.')
+				smmPath[t] = '\0';
+
+			if(smmPath[t] == '_')
+			{
+				smmPath[t] = '\0';
+				break;
+			}
+
+		}
+		strcat(smmPath, ".smm");
+		Util::fcopy(path, smmPath, true);
+
+	}
+
+}
+
+

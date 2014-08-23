@@ -20,6 +20,7 @@ public:
 
 	static void transSkin(const char* dest);
 	static void transSkel(const char* dest);
+	static void transSmm(const char* dest);
 };
 
 
