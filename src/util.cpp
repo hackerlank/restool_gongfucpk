@@ -473,3 +473,108 @@ void Util::transSmm(const char* dest)
 }
 
 
+void Util::transFak(const char* dest)
+{
+
+	mkdir(dest);
+
+	ifstream ff("res/faklist");
+
+	char path[256];
+	char tex[256];
+	int  n;
+	while(true)
+	{
+		ff >> path >> n;
+		if(ff.eof())
+			break;
+
+		cout << path << "  "<< n << endl;
+		ff.getline(tex, 256);
+		for(int i = 0; i < n; i ++)
+		{
+			ff.getline(tex, 256);
+			cout << tex << endl;
+
+			int m = 0;
+			while(tex[m])  
+			{
+	  			tex[m] = tolower(tex[m]);  
+				m++;
+			}
+
+			char dir[256];
+			Util::fpath(tex, dir);
+			int pcrc = Util::crc32(dir, strlen(dir));
+
+			int crc = Util::crc32(tex, strlen(tex));
+			char srcPath[256];
+			sprintf(srcPath, "../gameres/system.cpk/%X/%X.tga", pcrc, crc);
+			char dstPath[256];
+			strcpy(dstPath, dest);
+			strcat(dstPath, tex);
+			for(int m = 0; m < strlen(dstPath); m ++)
+				if(dstPath[m] == '\\')
+					dstPath[m] = '/';
+
+			
+			Util::fcopy(srcPath, dstPath, false);
+
+
+			tex[m-3] = 'd';
+			tex[m-2] = 'd';
+			tex[m-1] = 's';
+
+			crc = Util::crc32(tex, strlen(tex));
+
+			sprintf(srcPath, "../gameres/system.cpk/%X/%X.tga", pcrc, crc);
+			tex[m-3] = 't';
+			tex[m-2] = 'g';
+			tex[m-1] = 'a';
+
+
+			strcpy(dstPath, dest);
+			strcat(dstPath, tex);
+			for(int m = 0; m < strlen(dstPath); m ++)
+				if(dstPath[m] == '\\')
+					dstPath[m] = '/';
+
+
+			Util::fcopy(srcPath, dstPath, false);
+		}
+
+		char fakPath[256];
+		strcpy(fakPath, dest);
+		strcat(fakPath, tex);
+
+		if(n > 1)
+		{
+			for(int t = strlen(fakPath); t > 0; t--)
+			{
+				if(fakPath[t] == '.')
+					fakPath[t] = '\0';
+
+				if(fakPath[t] == '_')
+				{
+					fakPath[t] = '\0';
+					break;
+				}
+
+			}
+			strcat(fakPath, ".fak");
+		}
+		else
+		{
+			int t = strlen(fakPath);
+			fakPath[t-3] = 'f';
+			fakPath[t-2] = 'a';
+			fakPath[t-1] = 'k';
+			fakPath[t] = '\0';
+		}
+		Util::fcopy(path, fakPath, false);
+
+	}
+
+}
+
+

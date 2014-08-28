@@ -5,6 +5,7 @@
 #include "skel.h"
 #include "skin.h"
 #include "smm.h"
+#include "fak.h"
 
 using namespace std;
 
@@ -36,17 +37,24 @@ void read_skin(const char *filename)
 {
 	Skin skin(filename);
 
-	//skin.showHeadInfo();
-	skin.showMaterialInfo();
+	skin.showHeadInfo();
+	//skin.showMaterialInfo();
 }
 
 void read_smm(const char *filename)
 {
 	Smm smm(filename);
-	//smm.showHeadInfo();
-	smm.showMaterialInfo();
+	smm.showHeadInfo();
+	//smm.showMaterialInfo();
 }
 	
+void read_fak(const char *filename)
+{
+	Fak fak(filename);
+	fak.showHeadInfo();
+	fak.showMaterialInfo();
+}
+
  
 int main(int argc, char* argv[])
 {
@@ -65,6 +73,11 @@ int main(int argc, char* argv[])
 	//for(int i = 1; i < argc; i ++)
 	//	read_smm(argv[i]);
 	
+	//read_fak("res/fak/28F76578.fak");
+	//read_fak("res/fak/54637E6.fak");
+	//for(int i = 1; i < argc; i ++)
+	//	read_fak(argv[i]);
+	
 
 	//const char * dir = "system\\weapon\\quan";
 	//cout << hex << showbase << Util::crc32(dir, strlen(dir)) << endl;
@@ -72,9 +85,10 @@ int main(int argc, char* argv[])
 	//cout << hex << showbase << Util::crc32(str, strlen(str)) << endl;
 	
 
-	Util::transSkin("out/");
-	Util::transSkel("out/");
-	Util::transSmm("out/");
+	//Util::transSkin("out/");
+	//Util::transSkel("out/");
+	//Util::transSmm("out/");
+	Util::transFak("out/");
 
 	return 0;
 }
